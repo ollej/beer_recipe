@@ -19,12 +19,12 @@
       </thead>
       <tbody>
         <tr>
-          <td><%= '%.0f' % batch_size %></td>
-          <td><%= '%.0f' % boil_time %></td>
-          <td><%= ibu %></td>
-          <td><%= og %></td>
-          <td><%= fg %></td>
-          <td><%= '%.2f' % abv %></td>
+          <td><%= '%.1f' % batch_size %> L</td>
+          <td><%= '%.0f' % boil_time %> min</td>
+          <td><%= '%.0f' % ibu %></td>
+          <td><%= '%.3f' % og %> SG</td>
+          <td><%= '%.3f' % fg %> SG</td>
+          <td><%= '%.2f' % abv %>%</td>
         </tr>
       </tbody>
     </table>
@@ -93,7 +93,6 @@
           <td><%= yeast.name %></td>
           <td><%= yeast.product_id %></td>
           <td><%= yeast.laboratory %></td>
-          <td><%= yeast.form %></td>
           <td><%= yeast.form %></td>
           <td><%= yeast.formatted_attenuation %></td>
           <td><%= yeast.formatted_temperatures %></td>
