@@ -11,11 +11,12 @@ Gem::Specification.new do |s|
   s.email       = 'Olle@Johansson.com'
   s.files       = Dir['{bin,lib}/**/*']
   s.homepage    =
-    'https://github.com/ollej/flowpi'
+    'https://github.com/ollej/beer_recipe'
   s.license     = 'MIT'
   s.executables << 'beer_recipe'
 
   s.add_dependency 'nrb-beerxml', '~> 0.1'
+  s.add_dependency 'docopt', '~> 0.5'
 
   s.add_development_dependency 'rspec', '~> 3.2'
   s.add_development_dependency 'rake', '~> 10.4'

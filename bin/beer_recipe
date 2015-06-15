@@ -4,4 +4,30 @@ require 'rubygems'
 require 'bundler/setup'
 require 'beer_recipe'
 
-BeerRecipe::Reader.new(file: ARGV[0], formatter: BeerRecipe::HtmlFormatter.new).read.output
+require "docopt"
+doc = <<DOCOPT
+Beer Recipe
+
+Usage:
+  #{__FILE__} <beer.xml> [--format=<format>]
+  #{__FILE__} -h | --help
+  #{__FILE__} --version
+
+Options:
+  -h --help          Show this screen.
+  --version          Show version.
+  --format=<format>  Output format [default: html].
+
+DOCOPT
+
+begin
+  opts = Docopt::docopt(doc, version: "BeerRecipe v#{BeerRecipe::VERSION}")
+  formatter = if opts['--format'].downcase.start_with? 't'
+    BeerRecipe::TextFormatter.new
+  else
+    BeerRecipe::HtmlFormatter.new
+  end
+  BeerRecipe::Reader.new(file: ARGV[0], formatter: formatter).read.output
+rescue Docopt::Exit => e
+  puts e.message
+end
