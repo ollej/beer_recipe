@@ -12,12 +12,21 @@ class BeerRecipe::Wrapper
     @record.respond_to?(name) || super
   end
 
-  def record_type
-    @record.class.to_s.gsub(/^.*::/, '').downcase
-  end
-
   def format_method
     "format_#{record_type}".to_sym
+  end
+
+  def self.set(recipe, set)
+    recipe.send(set).map { |record| self.wrap(record, recipe) }
+  end
+
+  def self.wrap(record, recipe)
+    wrapper = "#{record.record_type.capitalize}Wrapper".to_sym
+    begin
+      return BeerRecipe.const_get(wrapper).new(record, recipe)
+    rescue NameError
+      return self.new(record, recipe)
+    end
   end
 end
 

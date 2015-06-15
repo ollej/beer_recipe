@@ -1,36 +1,36 @@
 class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
+  SETS = %i(fermentables hops miscs waters yeasts)
+
+  def initialize(record, recipe=nil)
+    super
+    @sets = {}
+  end
+
   def recipe
     @record
   end
 
-  def fermentables
-    wrap_set(recipe.fermentables)
+  def method_missing(method, *args, &block)
+    if SETS.include?(method)
+      @sets[method] ||= BeerRecipe::Wrapper.set(recipe, method)
+    else
+      @record.send(method, *args, &block)
+    end
   end
 
-  def hops
-    wrap_set(recipe.hops)
-  end
-
-  def miscs
-    wrap_set(recipe.miscs)
-  end
-
-  def waters
-    wrap_set(recipe.waters)
-  end
-
-  def yeasts
-    wrap_set(recipe.yeasts)
+  def respond_to_missing?(name, flag = true)
+    SETS.include?(method) || @record.respond_to?(name) || super
   end
 
   def mash
-    BeerRecipe::MashWrapper.new(recipe.mash, self, wrap_set(recipe.mash.mash_steps))
+    @mash ||= BeerRecipe::MashWrapper.new(recipe.mash, self)
   end
 
   def abv
+    return @abv if @abv
     og = recipe.og
     fg = recipe.fg
-    if og > 0 && fg > 0
+    @abv = if og > 0 && fg > 0
       ( (76.08 * (og - fg) / (1.775 - og) ) * (fg / 0.794) )
     else
       0
@@ -38,24 +38,12 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
   end
 
   def ibu
-    ibu = 0
+    return @ibu if @ibu
+    @ibu = 0
     hops.each do |hop|
-      ibu += hop.ibu
+      @ibu += hop.ibu
     end
-    ibu
-  end
-
-  def wrap_set(set)
-    set.map { |record| wrap(record) }
-  end
-
-  def wrap(record)
-    wrapper = "#{record.record_type.capitalize}Wrapper".to_sym
-    begin
-      return BeerRecipe.const_get(wrapper).new(record, self)
-    rescue NameError
-      return BeerRecipe::Wrapper.new(record, self)
-    end
+    @ibu
   end
 
 end

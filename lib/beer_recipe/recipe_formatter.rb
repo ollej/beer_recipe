@@ -2,7 +2,7 @@ class BeerRecipe::RecipeFormatter
   def format(recipe)
     @recipe = recipe
     format_recipe
-    %i(fermentables hops miscs waters yeasts).map do |set|
+    BeerRecipe::RecipeWrapper::SETS.map do |set|
       format_records(@recipe.send(set), set)
     end
     format_mash(@recipe.mash)
@@ -27,7 +27,7 @@ class BeerRecipe::RecipeFormatter
     format_records(mash.steps, :mashstep)
   end
 
-  def format_mashstep(m)
+  def format_mash_step(m)
     puts "#{m.name}\t#{m.type}\t#{'%.2f' % m.infuse_amount} L\t#{m.formatted_step_time}\t#{m.formatted_step_temp}"
   end
 

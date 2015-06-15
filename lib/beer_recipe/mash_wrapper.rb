@@ -1,10 +1,14 @@
 class BeerRecipe::MashWrapper < BeerRecipe::Wrapper
-  attr_reader :steps
 
-  def initialize(record, recipe=nil, steps=nil)
+  def initialize(record, recipe=nil)
     @record = record
     @recipe = recipe
-    @steps = steps
+  end
+
+  def steps
+    @steps ||= @record.mash_steps.map do |step|
+      BeerRecipe::Wrapper.wrap(step, @recipe)
+    end
   end
 end
 
