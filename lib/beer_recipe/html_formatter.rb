@@ -3,13 +3,9 @@ class BeerRecipe::HtmlFormatter < BeerRecipe::RecipeFormatter
     puts parse.read
   end
 
-  def template
-    IO.read('template/html.erb')
+  def template_path
+    'template/html.erb'
   end
 
-  def parse
-    erb = ERB.new(template).result(@recipe.get_binding)
-    StringIO.new(erb)
-  end
 end
 

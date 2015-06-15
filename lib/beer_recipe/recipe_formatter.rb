@@ -1,7 +1,7 @@
 class BeerRecipe::RecipeFormatter
   def format(recipe)
     @recipe = recipe
-    output
+    self
   end
 
   def template_path
