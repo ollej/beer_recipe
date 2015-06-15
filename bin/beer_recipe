@@ -4,4 +4,4 @@ require 'rubygems'
 require 'bundler/setup'
 require 'beer_recipe'
 
-BeerRecipe::Reader.new(file: ARGV[0], formatter: BeerRecipe::RecipeFormatter.new).read.output
+BeerRecipe::Reader.new(file: ARGV[0], formatter: BeerRecipe::HtmlFormatter.new).read.output

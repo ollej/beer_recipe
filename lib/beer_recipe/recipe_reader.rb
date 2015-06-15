@@ -11,8 +11,13 @@ class BeerRecipe::Reader
     self
   end
 
+  def recipe
+    BeerRecipe::RecipeWrapper.new(@beerxml.records.first)
+  end
+
   def output
-    @options[:formatter].format(BeerRecipe::RecipeWrapper.new(@beerxml.records.first))
+    @options[:formatter].format(recipe)
+    self
   end
 end
 

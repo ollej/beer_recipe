@@ -10,6 +10,10 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
     @record
   end
 
+  def get_binding
+    binding
+  end
+
   def method_missing(method, *args, &block)
     if SETS.include?(method)
       @sets[method] ||= BeerRecipe::Wrapper.set(recipe, method)
