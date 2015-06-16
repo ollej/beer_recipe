@@ -3,16 +3,33 @@ class BeerRecipe::Reader
 
   def initialize(options = {})
     @options = options
+    @options[:recipe_wrapper] ||= BeerRecipe::RecipeWrapper
+    @options[:formatter] ||= BeerRecipe::HtmlFormatter
+  end
+
+  def self.parse_options(options)
+    opts = {}
+    opts[:formatter] = if options.fetch('--format', 'html').downcase.start_with? 't'
+      BeerRecipe::TextFormatter
+    else
+      BeerRecipe::HtmlFormatter
+    end
+    opts[:template] = options['--template'] if options['--template']
+    opts[:file] = options['--file'] if options['--file']
+    opts
   end
 
   def read
     @parser ||= NRB::BeerXML::Parser.new
-    @beerxml = parser.parse @options[:file]
+    @beerxml = parser.parse @options.fetch(:file, STDIN)
     self
   end
 
-  def output
-    @options[:formatter].format(BeerRecipe::RecipeWrapper.new(@beerxml.records.first)).output
+  def parse
+    @beerxml.records.each do |record|
+      recipe = @options[:recipe_wrapper].new(record)
+      @options[:formatter].new(@options).format(recipe).output
+    end
   end
 end
 

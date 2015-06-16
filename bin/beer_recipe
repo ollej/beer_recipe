@@ -9,25 +9,23 @@ doc = <<DOCOPT
 Beer Recipe
 
 Usage:
-  #{__FILE__} <beer.xml> [--format=<format>]
+  #{__FILE__} [--file <beer.xml>] [--format=<format>] [--template=<path>]
   #{__FILE__} -h | --help
   #{__FILE__} --version
 
 Options:
   -h --help          Show this screen.
   --version          Show version.
-  --format=<format>  Output format [default: html].
+  --format=<format>  Output format: text|html [default: html].
+  --template=<path>  Path to ERB html template file to use instead of default.
+  --file=<beerxml>   Path to beerxml file to read (default STDIN).
 
 DOCOPT
 
 begin
-  opts = Docopt::docopt(doc, version: "BeerRecipe v#{BeerRecipe::VERSION}")
-  formatter = if opts['--format'].downcase.start_with? 't'
-    BeerRecipe::TextFormatter.new
-  else
-    BeerRecipe::HtmlFormatter.new
-  end
-  BeerRecipe::Reader.new(file: ARGV[0], formatter: formatter).read.output
+  doc_opts = Docopt::docopt(doc, version: "BeerRecipe v#{BeerRecipe::VERSION}")
+  options = BeerRecipe::Reader.parse_options(doc_opts)
+  BeerRecipe::Reader.new(options).read.parse
 rescue Docopt::Exit => e
   puts e.message
 end

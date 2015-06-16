@@ -4,7 +4,7 @@ class BeerRecipe::HtmlFormatter < BeerRecipe::RecipeFormatter
   end
 
   def template_file
-    'html.erb'
+    @options.fetch(:template, template_path('html.erb'))
   end
 
 end

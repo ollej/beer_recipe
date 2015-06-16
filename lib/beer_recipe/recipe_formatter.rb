@@ -1,11 +1,15 @@
 class BeerRecipe::RecipeFormatter
+  def initialize(options = {})
+    @options = options
+  end
+
   def format(recipe)
     @recipe = recipe
     self
   end
 
-  def template_path
-    Pathname.new(File.join(File.dirname(__FILE__), '..', '..', 'template', template_file)).realpath
+  def template_path(file)
+    Pathname.new(File.join(File.dirname(__FILE__), '..', '..', 'template', file)).realpath
   end
 
   def template_file
@@ -13,7 +17,7 @@ class BeerRecipe::RecipeFormatter
   end
 
   def template
-    IO.read(template_path)
+    IO.read(template_file)
   end
 
   def parse
