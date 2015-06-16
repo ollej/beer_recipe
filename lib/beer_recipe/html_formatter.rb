@@ -3,8 +3,8 @@ class BeerRecipe::HtmlFormatter < BeerRecipe::RecipeFormatter
     puts parse.read
   end
 
-  def template_path
-    'template/html.erb'
+  def template_file
+    'html.erb'
   end
 
 end

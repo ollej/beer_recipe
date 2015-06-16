@@ -1,9 +1,12 @@
 require 'nrb/beerxml'
 require 'erb'
+require 'pathname'
 
 module BeerRecipe
 end
 
+require 'beer_recipe/version'
+require 'beer_recipe/errors'
 require 'beer_recipe/reader'
 require 'beer_recipe/wrapper'
 require 'beer_recipe/mash_wrapper'

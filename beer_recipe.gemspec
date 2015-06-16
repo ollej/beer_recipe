@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.summary     = 'Simple Beer XML recipe formatter.'
   s.authors     = ['Olle Johansson']
   s.email       = 'Olle@Johansson.com'
-  s.files       = Dir['{bin,lib}/**/*']
+  s.files       = Dir['{bin,lib,template}/**/*']
   s.homepage    =
     'https://github.com/ollej/beer_recipe'
   s.license     = 'MIT'

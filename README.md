@@ -8,6 +8,12 @@ Usage
 -----
 
 ```bash
-$ ruby lib/beer_recipe.rb <path/to/beer.xml>
+$ ruby bin/beer_recipe -h
+Usage:
+  bin/beer_recipe <beer.xml> [--format=<format>]
+  bin/beer_recipe -h | --help
+  bin/beer_recipe --version
 ```
+
+Format may be 'html' or 'text', but defaults to html.
 

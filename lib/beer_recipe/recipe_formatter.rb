@@ -5,7 +5,11 @@ class BeerRecipe::RecipeFormatter
   end
 
   def template_path
-    ''
+    Pathname.new(File.join(File.dirname(__FILE__), '..', '..', 'template', template_file)).realpath
+  end
+
+  def template_file
+    raise BeerRecipe::NotImplementedError.new
   end
 
   def template

@@ -3,103 +3,116 @@
     <title><%= name %></title>
   </head>
   <body>
-    <h1><%= name %></h1>
+    <article class="beer_recipe">
+      <h1><%= name %></h1>
 
-    <h2>Recipe Details</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Batch Size</th>
-          <th>Boil Time</th>
-          <th>IBU</th>
-          <th>OG</th>
-          <th>FG</th>
-          <th>ABV</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><%= '%.1f' % batch_size %> L</td>
-          <td><%= '%.0f' % boil_time %> min</td>
-          <td><%= '%.0f' % ibu %></td>
-          <td><%= '%.3f' % og %> SG</td>
-          <td><%= '%.3f' % fg %> SG</td>
-          <td><%= '%.2f' % abv %>%</td>
-        </tr>
-      </tbody>
-    </table>
+      <section class="recipe_details">
+        <h2>Recipe Details</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Batch Size</th>
+              <th>Boil Time</th>
+              <th>IBU</th>
+              <th>OG</th>
+              <th>FG</th>
+              <th>ABV</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%= '%.1f' % batch_size %> L</td>
+              <td><%= '%.0f' % boil_time %> min</td>
+              <td><%= '%.0f' % ibu %></td>
+              <td><%= '%.3f' % og %> SG</td>
+              <td><%= '%.3f' % fg %> SG</td>
+              <td><%= '%.2f' % abv %>%</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
 
-    <h2>Fermentables</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% fermentables.each do |f| %>
-        <tr>
-          <td><%= f.name %></td>
-          <td><%= f.formatted_amount %></td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
+      <section class="fermentables">
+        <h2>Fermentables</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% fermentables.each do |f| %>
+            <tr>
+              <td><%= f.name %></td>
+              <td><%= f.formatted_amount %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </section>
 
-    <h2>Hops</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Amount</th>
-          <th>Time</th>
-          <th>Use</th>
-          <th>Form</th>
-          <th>Alpha</th>
-          <th>IBU</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% hops.each do |hop| %>
-        <tr>
-          <td><%= hop.name %></td>
-          <td><%= hop.formatted_amount %></td>
-          <td><%= hop.formatted_time %></td>
-          <td><%= hop.use %></td>
-          <td><%= hop.form %></td>
-          <td><%= hop.alpha %></td>
-          <td><%= hop.ibu %></td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
+      <section class="hops">
+        <h2>Hops</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Amount</th>
+              <th>Time</th>
+              <th>Use</th>
+              <th>Form</th>
+              <th>Alpha</th>
+              <th>IBU</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% hops.each do |hop| %>
+            <tr>
+              <td><%= hop.name %></td>
+              <td><%= hop.formatted_amount %></td>
+              <td><%= hop.formatted_time %></td>
+              <td><%= hop.use %></td>
+              <td><%= hop.form %></td>
+              <td><%= hop.alpha %></td>
+              <td><%= hop.ibu %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </section>
 
-    <h2>Yeast</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Product ID</th>
-          <th>Lab</th>
-          <th>Form</th>
-          <th>Attenuation</th>
-          <th>Temperature</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% yeasts.each do |yeast| %>
-        <tr>
-          <td><%= yeast.name %></td>
-          <td><%= yeast.product_id %></td>
-          <td><%= yeast.laboratory %></td>
-          <td><%= yeast.form %></td>
-          <td><%= yeast.formatted_attenuation %></td>
-          <td><%= yeast.formatted_temperatures %></td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
+      <section class="yeasts">
+        <h2>Yeasts</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Product ID</th>
+              <th>Lab</th>
+              <th>Form</th>
+              <th>Attenuation</th>
+              <th>Temperature</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% yeasts.each do |yeast| %>
+            <tr>
+              <td><%= yeast.name %></td>
+              <td><%= yeast.product_id %></td>
+              <td><%= yeast.laboratory %></td>
+              <td><%= yeast.form %></td>
+              <td><%= yeast.formatted_attenuation %></td>
+              <td><%= yeast.formatted_temperatures %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </section>
+    </article>
 
+    <footer>
+    <p><small>Generated by <a href="http://github.com/ollej/beer_recipe">BeerRecipe</a> v<%= BeerRecipe::VERSION %></small></p>
+    </footer>
   </body>
 </html>
