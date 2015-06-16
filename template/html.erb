@@ -1,10 +1,85 @@
 <html>
   <head>
     <title><%= name %></title>
+    <style>
+      .colorbox {
+        width: 1em;
+        height: 1em;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        border-width: 1px;
+        border-color: beige;
+        border-style: solid;
+        display: inline-block;
+      }
+      .srm1 { background-color: #FFE699; }
+      .srm2 { background-color: #FFD878; }
+      .srm3 { background-color: #FFCA5A; }
+      .srm4 { background-color: #FFBF42; }
+      .srm5 { background-color: #FBB123; }
+      .srm6 { background-color: #F8A600; }
+      .srm7 { background-color: #F39C00; }
+      .srm8 { background-color: #EA8F00; }
+      .srm9 { background-color: #E58500; }
+      .srm10 { background-color: #DE7C00; }
+      .srm11 { background-color: #D77200; }
+      .srm12 { background-color: #CF6900; }
+      .srm13 { background-color: #CB6200; }
+      .srm14 { background-color: #C35900; }
+      .srm15 { background-color: #BB5100; }
+      .srm16 { background-color: #B54C00; }
+      .srm17 { background-color: #B04500; }
+      .srm18 { background-color: #A63E00; }
+      .srm19 { background-color: #A13700; }
+      .srm20 { background-color: #9B3200; }
+      .srm21 { background-color: #952D00; }
+      .srm22 { background-color: #8E2900; }
+      .srm23 { background-color: #882300; }
+      .srm24 { background-color: #821E00; }
+      .srm25 { background-color: #7B1A00; }
+      .srm26 { background-color: #771900; }
+      .srm27 { background-color: #701400; }
+      .srm28 { background-color: #6A0E00; }
+      .srm29 { background-color: #660D00; }
+      .srm30 { background-color: #5E0B00; }
+      .srm31 { background-color: #5A0A02; }
+      .srm32 { background-color: #600903; }
+      .srm33 { background-color: #520907; }
+      .srm34 { background-color: #4C0505; }
+      .srm35 { background-color: #470606; }
+      .srm36 { background-color: #440607; }
+      .srm37 { background-color: #3F0708; }
+      .srm38 { background-color: #3B0607; }
+      .srm39 { background-color: #3A070B; }
+      .srm40 { background-color: #36080A; }
+    </style>
   </head>
   <body>
     <article class="beer_recipe">
       <h1><%= name %></h1>
+      <aside>
+        <h2>Information</h2>
+
+        <h3>Style</h3>
+        <p><%= style.name %> (<%= style_code %> / <%= style.style_guide %>)</p>
+
+        <h3>Type</h3>
+        <p><%= style.type %></p>
+
+        <h3>Grains</h3>
+        <p><%= '%.2f' % total_grains %> kg</p>
+
+        <h3>Hops</h3>
+        <p><%= '%.0f' % total_hops %> g</p>
+
+        <h3>Equipment</h3>
+        <p><%= equipment.name %> (<%= equipment.tun_volume %>L)</p>
+
+        <h3>Notes</h3>
+        <p><%= notes %></p>
+
+      </aside>
 
       <section class="recipe_details">
         <h2>Recipe Details</h2>
@@ -17,6 +92,7 @@
               <th>OG</th>
               <th>FG</th>
               <th>ABV</th>
+              <th>Color</th>
             </tr>
           </thead>
           <tbody>
@@ -26,7 +102,9 @@
               <td><%= '%.0f' % ibu %></td>
               <td><%= '%.3f' % og %> SG</td>
               <td><%= '%.3f' % fg %> SG</td>
-              <td><%= '%.2f' % abv %>%</td>
+              <td><%= '%.1f' % abv %>%</td>
+              <td><%= '%.0f' % color_ebc %> EBC
+                <div class="colorbox <%= color_class %>">&nbsp;</span></td>
             </tr>
           </tbody>
         </table>
@@ -39,6 +117,8 @@
             <tr>
               <th>Name</th>
               <th>Amount</th>
+              <th>Type</th>
+              <th>Color</th>
             </tr>
           </thead>
           <tbody>
@@ -46,6 +126,9 @@
             <tr>
               <td><%= f.name %></td>
               <td><%= f.formatted_amount %></td>
+              <td><%= f.type %></td>
+              <td><%= '%.0f' % f.color_ebc %> EBC
+                <div class="colorbox <%= f.color_class %>">&nbsp;</span></td>
             </tr>
             <% end %>
           </tbody>
@@ -74,8 +157,8 @@
               <td><%= hop.formatted_time %></td>
               <td><%= hop.use %></td>
               <td><%= hop.form %></td>
-              <td><%= hop.alpha %></td>
-              <td><%= hop.ibu %></td>
+              <td><%= hop.alpha %>%</td>
+              <td><%= '%.1f' % hop.ibu %></td>
             </tr>
             <% end %>
           </tbody>

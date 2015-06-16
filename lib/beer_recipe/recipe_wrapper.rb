@@ -30,6 +30,10 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
     @mash ||= BeerRecipe::MashWrapper.new(recipe.mash, self)
   end
 
+  def style_code
+    "#{recipe.style.category_number} #{recipe.style.style_letter}"
+  end
+
   def abv
     return @abv if @abv
     og = recipe.og
@@ -48,6 +52,61 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
       @ibu += hop.ibu
     end
     @ibu
+  end
+
+  def grains
+    fermentables.select { |f| f.type == 'Grain' }
+  end
+
+  def color
+    color_srm
+  end
+
+  def color_mcu
+    mcu = 0
+    fermentables.each do |f|
+      mcu += f.mcu
+    end
+    mcu
+  end
+
+  def color_srm
+    # SRM color = 1.4922 * (MCU ** 0.6859)
+    mcu = color_mcu
+    srm = 1.4922 * (mcu ** 0.6859)
+    if srm > 8
+      srm
+    else
+      mcu
+    end
+  end
+
+  def color_ebc
+    color_srm * 1.97
+  end
+
+  def color_class
+    "srm#{'%.0f' % color}"
+  end
+
+  def formatted_color
+    "#{'%.0f' % color} °L"
+  end
+
+  def total_grains
+    total_grains = 0
+    fermentables.each do |f|
+      total_grains += f.amount
+    end
+    total_grains
+  end
+
+  def total_hops
+    hop_weight = 0
+    hops.each do |hop|
+      hop_weight += hop.amount
+    end
+    hop_weight
   end
 
 end
