@@ -1,7 +1,11 @@
 <html>
   <head>
     <title><%= name %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+      @-ms-viewport{
+        width: device-width;
+      }
       .colorbox {
         width: 1em;
         height: 1em;
@@ -71,6 +75,7 @@
         clear: both;
       }
       .beer_recipe table {
+        border-collapse: collapse;
         border: 1px solid #e0e0e0;
         -webkit-border-radius: 3px;
         -moz-border-radius: 3px;
@@ -129,6 +134,47 @@
         background-color: #eaeaea;
         padding: 0 8px 0 8px;
         margin: 0 5px 15px 5px;
+      }
+      .beer_recipe .recipe_information h3 {
+        margin-bottom: 0;
+      }
+      .beer_recipe .recipe_information p {
+        margin-top: 1pt;
+      }
+      .beer_recipe td {
+        white-space: nowrap
+      }
+      @media only screen and (max-width: 640px) {
+        section {
+          overflow-x: scroll;
+        }
+        .beer_recipe .recipe_information {
+          float: left;
+          width: 100%;
+          max-width: 100%;
+          margin: 0 0 15px 0;
+        }
+        .beer_recipe .recipe_information p,
+        .beer_recipe .recipe_information h3 {
+          display: inline;
+        }
+        .beer_recipe .recipe_information h3:after {
+          content: ":"
+        }
+        .beer_recipe .recipe_information .recipe_notes p,
+        .beer_recipe .recipe_information .recipe_notes h3 {
+          display: block;
+        }
+        section {
+          float: left;
+          width: 100%;
+          max-width: 100%;
+        }
+      }
+      @media screen and (max-width: 320px) {
+        .beer_recipe .recipe_information {
+          width: 95%;
+        }
       }
     </style>
   </head>
