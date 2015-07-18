@@ -55,6 +55,81 @@
       .srm38 { background-color: #3B0607; }
       .srm39 { background-color: #3A070B; }
       .srm40 { background-color: #36080A; }
+
+      body {
+        font-family: Tahoma,Optima,"Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 12pt;
+        line-height: 18pt;
+        color: #4a4a4a;
+        background-color: #fafafa;
+      }
+      section {
+        float: left;
+        width: 70%;
+      }
+      footer {
+        clear: both;
+      }
+      .beer_recipe table {
+        border: 1px solid #e0e0e0;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        border-spacing: 0;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 0 10px 0;
+      }
+      .beer_recipe thead:first-child tr:first-child th:first-child {
+        border-top-left-radius: 3px;
+        border-left: 0;
+      }
+      .beer_recipe thead:first-child tr:first-child th:last-child {
+        border-top-right-radius: 3px;
+      }
+      .beer_recipe thead tr:first-child th,
+      .beer_recipe thead tr:first-child td {
+        border-top: 0;
+      }
+      .beer_recipe thead th {
+        vertical-align: left;
+        background-color: #cacaca;
+      }
+      .beer_recipe tbody tr {
+        text-align: left;
+        background-color: #eaeaea;
+      }
+      .beer_recipe tbody tr:nth-child(even) {
+        background-color: #f5f5f5;
+      }
+      .beer_recipe td, .beer_recipe th {
+        border-top: 1px solid #e0e0e0;
+        border-left: 1px solid #e0e0e0;
+        padding: 6px;
+      }
+      .beer_recipe tbody tr td:first-child {
+        border-left: 0;
+      }
+      .beer_recipe tbody tr:last-child td:first-child {
+        border-bottom-left-radius: 3px;
+      }
+      .beer_recipe tbody tr:last-child td:last-child {
+        border-bottom-right-radius: 3px;
+      }
+      .beer_recipe .format_number {
+        text-align: right;
+      }
+      .beer_recipe .recipe_information {
+        float: right;
+        width: 25%;
+        border: 1px solid #e0e0e0;
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+        border-radius: 6px;
+        background-color: #eaeaea;
+        padding: 0 8px 0 8px;
+        margin: 0 5px 15px 5px;
+      }
     </style>
   </head>
   <body>
@@ -128,20 +203,21 @@
           </thead>
           <tbody>
             <tr>
-              <td class="recipe_batch_size" itemprop="recipeYield"><%= '%.1f' % batch_size %> L</td>
-              <td class="recipe_boil_time"><%= '%.0f' % boil_time %> min</td>
-              <td class="recipe_ibu"><%= '%.0f' % ibu %></td>
-              <td class="recipe_og"><%= '%.3f' % og %> SG</td>
-              <td class="recipe_fg"><%= '%.3f' % fg %> SG</td>
-              <td class="recipe_abv"><%= '%.1f' % abv %>%</td>
-              <td class="recipe_calories" itemprop="nutrition" itemscope
+              <td class="recipe_batch_size format_number" itemprop="recipeYield"><%= '%.1f' % batch_size %> L</td>
+              <td class="recipe_boil_time format_number"><%= '%.0f' % boil_time %> min</td>
+              <td class="recipe_ibu format_number"><%= '%.0f' % ibu %></td>
+              <td class="recipe_og format_number"><%= '%.3f' % og %> SG</td>
+              <td class="recipe_fg format_number"><%= '%.3f' % fg %> SG</td>
+              <td class="recipe_abv format_number"><%= '%.1f' % abv %>%</td>
+              <td class="recipe_calories format_number" itemprop="nutrition" itemscope
                 itemtype="http://schema.org/NutritionInformation">
                 <span itemprop="calories"><%= '%.0f' % calories %></span>
                 <meta itemprop="servingSize" content="1 L">
               </td>
-              <td class="recipe_color"><%= '%.0f' % color_ebc %> EBC
+              <td class="recipe_color format_number">
+                <%= '%.0f' % color_ebc %> EBC
                 <div class="colorbox" style="background-color: <%= color_hex %>">&nbsp;</div>
-                <div class="colorbox <%= color_class %>">&nbsp;</div></td>
+                <!-- <div class="colorbox <%= color_class %>">&nbsp;</div> --></td>
             </tr>
           </tbody>
         </table>
@@ -164,13 +240,14 @@
             <meta itemprop="recipeIngredient"
               content="<%= f.formatted_amount %> <%= f.name %>">
             <tr>
-              <td class="fermentable_percent"><%= '%.1f' % f.amount_percent %>%</td>
+              <td class="fermentable_percent format_number"><%= '%.1f' % f.amount_percent %>%</td>
               <td class="fermentable_name"><%= f.name %></td>
-              <td class="fermentable_amount"><%= f.formatted_amount %></td>
+              <td class="fermentable_amount format_number"><%= f.formatted_amount %></td>
               <td class="fermentable_type"><%= f.type %></td>
-              <td class="fermentable_color"><%= '%.0f' % f.color_ebc %> EBC
+              <td class="fermentable_color format_number">
+                <%= '%.0f' % f.color_ebc %> EBC
                 <div class="colorbox" style="background-color: <%= f.color_hex %>">&nbsp;</div>
-                <div class="colorbox <%= f.color_class %>">&nbsp;</div></td>
+                <!-- <div class="colorbox <%= f.color_class %>">&nbsp;</div> --></td>
             </tr>
             <% end %>
           </tbody>
@@ -197,14 +274,14 @@
             <meta itemprop="recipeIngredient"
               content="<%= hop.formatted_amount %> <%= hop.name %> (<%= hop.use %> <%= hop.formatted_time %>)">
             <tr>
-              <td class="hops_percent"><%= '%.1f' % hop.amount_percent %>%</td>
+              <td class="hops_percent format_number"><%= '%.1f' % hop.amount_percent %>%</td>
               <td class="hops_name"><%= hop.name %></td>
-              <td class="hops_amount"><%= hop.formatted_amount %></td>
-              <td class="hops_time"><%= hop.formatted_time %></td>
+              <td class="hops_amount format_number"><%= hop.formatted_amount %></td>
+              <td class="hops_time format_number"><%= hop.formatted_time %></td>
               <td class="hops_use"><%= hop.use %></td>
               <td class="hops_form"><%= hop.form %></td>
-              <td class="hops_alpha"><%= hop.alpha %>%</td>
-              <td class="hops_ibu"><%= '%.1f' % hop.ibu %></td>
+              <td class="hops_alpha format_number"><%= hop.alpha %>%</td>
+              <td class="hops_ibu format_number"><%= '%.1f' % hop.ibu %></td>
             </tr>
             <% end %>
           </tbody>
@@ -232,8 +309,8 @@
               <td class="yeast_product_id"><%= yeast.product_id %></td>
               <td class="yeast_laboratory"><%= yeast.laboratory %></td>
               <td class="yeast_form"><%= yeast.form %></td>
-              <td class="yeast_attenuation"><%= yeast.formatted_attenuation %></td>
-              <td class="yeast_temperatures"><%= yeast.formatted_temperatures %></td>
+              <td class="yeast_attenuation format_number"><%= yeast.formatted_attenuation %></td>
+              <td class="yeast_temperatures format_number"><%= yeast.formatted_temperatures %></td>
             </tr>
             <% end %>
           </tbody>
@@ -260,10 +337,10 @@
               <meta itemprop="name" content="<%= step.name %> (<%= step.type %>) <%= step.formatted_step_temp %> @ <%= step.formatted_step_time %>">
               <td class="mash_name"><%= step.name %></td>
               <td class="mash_type"><%= step.type %></td>
-              <td class="mash_infuse_amount"><%= step.formatted_infuse_amount %></td>
-              <td class="mash_step_temp"><%= step.formatted_step_temp %></td>
-              <td class="mash_ramp_time"><%= step.formatted_ramp_time %></td>
-              <td class="mash_step_time"><%= step.formatted_step_time %></td>
+              <td class="mash_infuse_amount format_number"><%= step.formatted_infuse_amount %></td>
+              <td class="mash_step_temp format_number"><%= step.formatted_step_temp %></td>
+              <td class="mash_ramp_time format_number"><%= step.formatted_ramp_time %></td>
+              <td class="mash_step_time format_number"><%= step.formatted_step_time %></td>
             </tr>
             <% end %>
           </tbody>
@@ -273,7 +350,7 @@
     </article>
 
     <footer>
-    <p><small>Generated by <a href="http://github.com/ollej/beer_recipe">BeerRecipe</a> v<%= BeerRecipe::VERSION %></small></p>
+      <p><small>Generated by <a href="http://github.com/ollej/beer_recipe">BeerRecipe</a> v<%= BeerRecipe::VERSION %></small></p>
     </footer>
   </body>
 </html>
