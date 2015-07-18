@@ -58,8 +58,14 @@
     </style>
   </head>
   <body>
-    <article class="beer_recipe">
-      <h1><%= name %></h1>
+    <article class="beer_recipe" itemscope itemtype="http://schema.org/Recipe">
+      <meta itemprop="author" content="<%= brewer %>"/>
+      <meta itemprop="recipeCategory" content="beverage"/>
+      <meta itemprop="totalTime" content="<%= total_time_period %>"/>
+      <meta itemprop="cookTime" content="<%= boil_time_period %>">
+
+      <h1 itemprop="name"><%= name %></h1>
+
       <aside class="recipe_information">
         <h2>Information</h2>
 
@@ -88,9 +94,19 @@
           <p><%= equipment.name %> (<%= equipment.tun_volume %>L)</p>
         </div>
 
+        <div class="recipe_brewer">
+          <h3>Brewer</h3>
+          <p>
+            <%= brewer %>
+            <% unless asst_brewer.blank? %>
+            (assisted by <%= asst_brewer %>)
+            <% end %>
+          </p>
+        </div>
+
         <div class="recipe_notes">
           <h3>Notes</h3>
-          <p><%= notes %></p>
+          <p itemprop="description"><%= notes %></p>
         </div>
 
       </aside>
@@ -106,18 +122,24 @@
               <th>OG</th>
               <th>FG</th>
               <th>ABV</th>
+              <th>Calories / L</th>
               <th>Color</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><%= '%.1f' % batch_size %> L</td>
-              <td><%= '%.0f' % boil_time %> min</td>
-              <td><%= '%.0f' % ibu %></td>
-              <td><%= '%.3f' % og %> SG</td>
-              <td><%= '%.3f' % fg %> SG</td>
-              <td><%= '%.1f' % abv %>%</td>
-              <td><%= '%.0f' % color_ebc %> EBC
+              <td class="recipe_batch_size" itemprop="recipeYield"><%= '%.1f' % batch_size %> L</td>
+              <td class="recipe_boil_time"><%= '%.0f' % boil_time %> min</td>
+              <td class="recipe_ibu"><%= '%.0f' % ibu %></td>
+              <td class="recipe_og"><%= '%.3f' % og %> SG</td>
+              <td class="recipe_fg"><%= '%.3f' % fg %> SG</td>
+              <td class="recipe_abv"><%= '%.1f' % abv %>%</td>
+              <td class="recipe_calories" itemprop="nutrition" itemscope
+                itemtype="http://schema.org/NutritionInformation">
+                <span itemprop="calories"><%= '%.0f' % calories %></span>
+                <meta itemprop="servingSize" content="1 L">
+              </td>
+              <td class="recipe_color"><%= '%.0f' % color_ebc %> EBC
                 <div class="colorbox" style="background-color: <%= color_hex %>">&nbsp;</div>
                 <div class="colorbox <%= color_class %>">&nbsp;</div></td>
             </tr>
@@ -139,12 +161,14 @@
           </thead>
           <tbody>
             <% fermentables.each do |f| %>
+            <meta itemprop="recipeIngredient"
+              content="<%= f.formatted_amount %> <%= f.name %>">
             <tr>
-              <td><%= '%.1f' % f.amount_percent %>%</td>
-              <td><%= f.name %></td>
-              <td><%= f.formatted_amount %></td>
-              <td><%= f.type %></td>
-              <td><%= '%.0f' % f.color_ebc %> EBC
+              <td class="fermentable_percent"><%= '%.1f' % f.amount_percent %>%</td>
+              <td class="fermentable_name"><%= f.name %></td>
+              <td class="fermentable_amount"><%= f.formatted_amount %></td>
+              <td class="fermentable_type"><%= f.type %></td>
+              <td class="fermentable_color"><%= '%.0f' % f.color_ebc %> EBC
                 <div class="colorbox" style="background-color: <%= f.color_hex %>">&nbsp;</div>
                 <div class="colorbox <%= f.color_class %>">&nbsp;</div></td>
             </tr>
@@ -170,15 +194,17 @@
           </thead>
           <tbody>
             <% hops.each do |hop| %>
+            <meta itemprop="recipeIngredient"
+              content="<%= hop.formatted_amount %> <%= hop.name %> (<%= hop.use %> <%= hop.formatted_time %>)">
             <tr>
-              <td><%= '%.1f' % hop.amount_percent %>%</td>
-              <td><%= hop.name %></td>
-              <td><%= hop.formatted_amount %></td>
-              <td><%= hop.formatted_time %></td>
-              <td><%= hop.use %></td>
-              <td><%= hop.form %></td>
-              <td><%= hop.alpha %>%</td>
-              <td><%= '%.1f' % hop.ibu %></td>
+              <td class="hops_percent"><%= '%.1f' % hop.amount_percent %>%</td>
+              <td class="hops_name"><%= hop.name %></td>
+              <td class="hops_amount"><%= hop.formatted_amount %></td>
+              <td class="hops_time"><%= hop.formatted_time %></td>
+              <td class="hops_use"><%= hop.use %></td>
+              <td class="hops_form"><%= hop.form %></td>
+              <td class="hops_alpha"><%= hop.alpha %>%</td>
+              <td class="hops_ibu"><%= '%.1f' % hop.ibu %></td>
             </tr>
             <% end %>
           </tbody>
@@ -201,25 +227,27 @@
           <tbody>
             <% yeasts.each do |yeast| %>
             <tr>
-              <td><%= yeast.name %></td>
-              <td><%= yeast.product_id %></td>
-              <td><%= yeast.laboratory %></td>
-              <td><%= yeast.form %></td>
-              <td><%= yeast.formatted_attenuation %></td>
-              <td><%= yeast.formatted_temperatures %></td>
+              <meta itemprop="name" content="<%= yeast.name %> (<%= yeast.product_id %>) <%= yeast.laboratory %>">
+              <td class="yeast_name"><%= yeast.name %></td>
+              <td class="yeast_product_id"><%= yeast.product_id %></td>
+              <td class="yeast_laboratory"><%= yeast.laboratory %></td>
+              <td class="yeast_form"><%= yeast.form %></td>
+              <td class="yeast_attenuation"><%= yeast.formatted_attenuation %></td>
+              <td class="yeast_temperatures"><%= yeast.formatted_temperatures %></td>
             </tr>
             <% end %>
           </tbody>
         </table>
       </section>
 
-      <section class="recipe_mash">
+      <section class="recipe_mash" itemprop="recipeInstructions"
+        itemscope itemtype="https://schema.org/ItemList">
         <h2>Mash</h2>
         <table>
           <thead>
             <tr>
-              <th>Type</th>
               <th>Name</th>
+              <th>Type</th>
               <th>Infuse Amount</th>
               <th>Step Temp</th>
               <th>Ramp Time</th>
@@ -228,13 +256,14 @@
           </thead>
           <tbody>
             <% mash.steps.each do |step| %>
-            <tr>
-              <td><%= step.type %></td>
-              <td><%= step.name %></td>
-              <td><%= step.formatted_infuse_amount %></td>
-              <td><%= step.formatted_step_temp %></td>
-              <td><%= step.formatted_ramp_time %></td>
-              <td><%= step.formatted_step_time %></td>
+              <tr>
+              <meta itemprop="name" content="<%= step.name %> (<%= step.type %>) <%= step.formatted_step_temp %> @ <%= step.formatted_step_time %>">
+              <td class="mash_name"><%= step.name %></td>
+              <td class="mash_type"><%= step.type %></td>
+              <td class="mash_infuse_amount"><%= step.formatted_infuse_amount %></td>
+              <td class="mash_step_temp"><%= step.formatted_step_temp %></td>
+              <td class="mash_ramp_time"><%= step.formatted_ramp_time %></td>
+              <td class="mash_step_time"><%= step.formatted_step_time %></td>
             </tr>
             <% end %>
           </tbody>

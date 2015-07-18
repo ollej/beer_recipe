@@ -30,6 +30,10 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
     @mash ||= BeerRecipe::MashWrapper.new(recipe.mash, self)
   end
 
+  def has_final_values?
+    og > 0 && fg > 0 && abv > 0
+  end
+
   def style_code
     "#{recipe.style.category_number} #{recipe.style.style_letter}"
   end
@@ -108,5 +112,33 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
     @hop_weight
   end
 
+  def total_time
+    boil_time + mash.total_mash_time
+  end
+
+  def total_time_period
+    "PT#{'%0.f' % total_time}M"
+  end
+
+  def boil_time_period
+    "PT#{'%0.f' % boil_time}M"
+  end
+
+  def serving_size
+    1000
+  end
+
+  # Returns calories per liter
+  def calories
+    @calories ||= if has_final_values?
+      BeerRecipe::Formula.new.calories(serving_size, abv, og, fg)
+    else
+      0
+    end
+  end
+
+  def real_extract
+    @real_extract ||= BeerRecipe::Formula.new.real_extract(og, fg)
+  end
 end
 
