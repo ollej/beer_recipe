@@ -3,9 +3,8 @@ class BeerRecipe::FermentableWrapper < BeerRecipe::Wrapper
     "#{'%.2f' % amount} kg"
   end
 
-    #@type="Grain", @yield=82.5, @color=5.91,
   def formatted_color
-    "#{'%.0f' % color} EBC"
+    "#{'%.0f' % color_ebc} EBC"
   end
 
   def color_ebc
@@ -13,16 +12,35 @@ class BeerRecipe::FermentableWrapper < BeerRecipe::Wrapper
   end
 
   def color_srm
-    color / 1.97
+    @color_srm ||= BeerRecipe::Formula.new.ebc_to_srm(color_ebc)
   end
 
-  def color_class
-    "srm#{'%.0f' % color_srm}"
+  def srm_in_batch
+    BeerRecipe::Formula.new.mcu_to_srm(mcu)
   end
 
   def mcu
-    # MCU = (weight kg * lovibond * 2.205) / (volume * 0.264)
-    (amount * color_srm * 2.205) / (@recipe.batch_size * 0.264)
+    @mcu ||= BeerRecipe::Formula.new.mcu(amount, color_srm, @recipe.batch_size)
   end
+
+  def color_class
+    c = color_srm.to_i
+    if c > 40
+      'srm-max'
+    elsif c < 1
+      'srm-min'
+    else
+      "srm#{c}"
+    end
+  end
+
+  def color_hex
+    "#%02x%02x%02x" % BeerRecipe::Formula.new.srm_to_rgb(color_srm)
+  end
+
+  def amount_percent
+    amount / @recipe.total_grains * 100
+  end
+
 end
 

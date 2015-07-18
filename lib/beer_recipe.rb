@@ -8,6 +8,7 @@ end
 require 'beer_recipe/version'
 require 'beer_recipe/errors'
 require 'beer_recipe/reader'
+require 'beer_recipe/formula'
 require 'beer_recipe/wrapper'
 require 'beer_recipe/mash_wrapper'
 require 'beer_recipe/mash_step_wrapper'

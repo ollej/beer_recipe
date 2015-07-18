@@ -33,5 +33,10 @@ class BeerRecipe::HopWrapper < BeerRecipe::Wrapper
   def formatted_ibu
    "#{'%.2f' % ibu} IBU"
   end
+
+  def amount_percent
+    amount / @recipe.total_hops * 100
+  end
+
 end
 

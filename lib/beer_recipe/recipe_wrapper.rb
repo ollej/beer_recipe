@@ -16,7 +16,7 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
 
   def method_missing(method, *args, &block)
     if SETS.include?(method)
-      @sets[method] ||= BeerRecipe::Wrapper.set(recipe, method)
+      @sets[method] ||= BeerRecipe::Wrapper.set(self, recipe.send(method))
     else
       @record.send(method, *args, &block)
     end
@@ -35,14 +35,7 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
   end
 
   def abv
-    return @abv if @abv
-    og = recipe.og
-    fg = recipe.fg
-    @abv = if og > 0 && fg > 0
-      ( (76.08 * (og - fg) / (1.775 - og) ) * (fg / 0.794) )
-    else
-      0
-    end
+    @abv ||= BeerRecipe::Formula.new.sg_to_abv(recipe.og, recipe.fg)
   end
 
   def ibu
@@ -71,42 +64,48 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
   end
 
   def color_srm
-    # SRM color = 1.4922 * (MCU ** 0.6859)
-    mcu = color_mcu
-    srm = 1.4922 * (mcu ** 0.6859)
-    if srm > 8
-      srm
-    else
-      mcu
-    end
+    @color_srm ||= BeerRecipe::Formula.new.mcu_to_srm(color_mcu)
   end
 
   def color_ebc
-    color_srm * 1.97
+    @color_eb ||= BeerRecipe::Formula.new.srm_to_ebc(color_srm)
   end
 
   def color_class
-    "srm#{'%.0f' % color}"
+    c = color_srm.to_i
+    if c > 40
+      'srm-max'
+    elsif c < 1
+      'srm-min'
+    else
+      "srm#{c}"
+    end
+  end
+
+  def color_hex
+    "#%02x%02x%02x" % BeerRecipe::Formula.new.srm_to_rgb(color_srm)
   end
 
   def formatted_color
-    "#{'%.0f' % color} °L"
+    "#{'%.0f' % color_ebc} EBC"
   end
 
   def total_grains
-    total_grains = 0
+    return @total_grains if @total_grains
+    @total_grains = 0
     fermentables.each do |f|
-      total_grains += f.amount
+      @total_grains += f.amount
     end
-    total_grains
+    @total_grains
   end
 
   def total_hops
-    hop_weight = 0
+    return @hop_weight if @hop_weight
+    @hop_weight = 0
     hops.each do |hop|
-      hop_weight += hop.amount
+      @hop_weight += hop.amount
     end
-    hop_weight
+    @hop_weight
   end
 
 end

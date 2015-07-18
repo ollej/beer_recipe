@@ -17,7 +17,7 @@ class BeerRecipe::Wrapper
   end
 
   def self.set(recipe, set)
-    recipe.send(set).map { |record| self.wrap(record, recipe) }
+    set.map { |record| self.wrap(record, recipe) }
   end
 
   def self.wrap(record, recipe)
