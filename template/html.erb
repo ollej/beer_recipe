@@ -212,6 +212,35 @@
           </tbody>
         </table>
       </section>
+
+      <section class="recipe_mash">
+        <h2>Mash</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Name</th>
+              <th>Infuse Amount</th>
+              <th>Step Temp</th>
+              <th>Ramp Time</th>
+              <th>Step Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% mash.steps.each do |step| %>
+            <tr>
+              <td><%= step.type %></td>
+              <td><%= step.name %></td>
+              <td><%= step.formatted_infuse_amount %></td>
+              <td><%= step.formatted_step_temp %></td>
+              <td><%= step.formatted_ramp_time %></td>
+              <td><%= step.formatted_step_time %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </section>
+
     </article>
 
     <footer>

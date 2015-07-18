@@ -21,14 +21,19 @@ class BeerRecipe::Reader
 
   def read
     @parser ||= NRB::BeerXML::Parser.new
-    @beerxml = parser.parse @options.fetch(:file, STDIN)
+    @beerxml = @parser.parse @options.fetch(:file, STDIN)
     self
   end
 
   def parse
+    raise BeerRecipe::ParseError if @beerxml.nil?
     @beerxml.records.each do |record|
       recipe = @options[:recipe_wrapper].new(record)
-      @options[:formatter].new(@options).format(recipe).output
+      begin
+        @options[:formatter].new(@options).format(recipe).output
+      rescue NoMethodError => e
+        raise BeerRecipe::FormatError.new e
+      end
     end
   end
 end
