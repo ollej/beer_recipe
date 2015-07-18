@@ -34,6 +34,10 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
     og > 0 && fg > 0 && abv > 0
   end
 
+  def file_name
+    I18n.transliterate(name.downcase.gsub(/\s+/, '_')).gsub(/[^a-z_]/, '')
+  end
+
   def style_code
     "#{recipe.style.category_number} #{recipe.style.style_letter}"
   end

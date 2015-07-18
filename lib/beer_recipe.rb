@@ -1,6 +1,7 @@
 require 'nrb/beerxml'
 require 'erb'
 require 'pathname'
+require 'i18n'
 
 module BeerRecipe
 end
