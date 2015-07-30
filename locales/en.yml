@@ -35,6 +35,7 @@ fermentable_color: Color
 Grain: Grain
 Dry Extract: Dry Extract
 Sugar: Sugar
+Adjunct: Adjunct
 hops_name: Name
 hops_amount: Amount
 hops_time: Time
