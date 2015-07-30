@@ -286,7 +286,7 @@
           <tbody>
             <% fermentables.each do |f| %>
             <meta itemprop="recipeIngredient"
-              content="<%= f.formatted_amount %> <%= f.name %>">
+              content="<%= f.formatted_amount %> <%= I18n.t(:kilograms) %> <%= f.name %>">
             <tr>
               <td class="fermentable_percent format_number"><%= '%.1f' % f.amount_percent %><%= I18n.t(:percent_sign) %></td>
               <td class="fermentable_name"><%= f.name %></td>
@@ -320,7 +320,7 @@
           <tbody>
             <% hops.each do |hop| %>
             <meta itemprop="recipeIngredient"
-              content="<%= hop.formatted_amount %> <%= hop.name %> (<%= hop.use %> <%= hop.formatted_time %>)">
+              content="<%= hop.formatted_amount %> <%= I18n.t(:grams) %> <%= hop.name %> (<%= I18n.t(hop.use, default: hop.use) %> <%= hop.formatted_time %> <%= I18n.t(hop.time_unit, default: hop.time_unit) %>)">
             <tr>
               <td class="hops_percent format_number"><%= '%.1f' % hop.amount_percent %><%= I18n.t(:percent_sign) %></td>
               <td class="hops_name"><%= hop.name %></td>
@@ -382,9 +382,9 @@
           <tbody>
             <% mash.steps.each do |step| %>
               <tr>
-              <meta itemprop="name" content="<%= step.name %> (<%= step.type %>) <%= step.formatted_step_temp %> @ <%= step.formatted_step_time %>">
+              <meta itemprop="name" content="<%= I18n.t(step.name, default: step.name) %> (<%= I18n.t(step.type, default: step.type) %>) <%= step.formatted_step_temp %> @ <%= step.formatted_step_time %>">
               <td class="mash_name"><%= I18n.t(step.name, default: step.name) %></td>
-              <td class="mash_type"><%= step.type %></td>
+              <td class="mash_type"><%= I18n.t(step.type, default: step.type) %></td>
               <td class="mash_infuse_amount format_number"><%= step.formatted_infuse_amount %> <%= I18n.t(:liter_abbr) %></td>
               <td class="mash_step_temp format_number"><%= step.formatted_step_temp %><%= I18n.t(:degrees) %></td>
               <td class="mash_ramp_time format_number"><%= step.formatted_ramp_time %> <%= I18n.t(:minutes) %></td>
