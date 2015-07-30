@@ -5,6 +5,11 @@ class BeerRecipe::Reader
     @options = options
     @options[:recipe_wrapper] ||= BeerRecipe::RecipeWrapper
     @options[:formatter] ||= BeerRecipe::HtmlFormatter
+    setup_translation
+  end
+
+  def setup_translation
+    I18n.backend.store_translations(:en, YAML.load(File.read(@options[:language])))
   end
 
   def self.parse_options(options)
@@ -16,6 +21,7 @@ class BeerRecipe::Reader
     end
     opts[:template] = options['--template'] if options['--template']
     opts[:file] = options['--file'] if options['--file']
+    opts[:language] = options['--language'] || 'locales/en.yml'
     opts
   end
 

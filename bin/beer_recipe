@@ -9,7 +9,7 @@ doc = <<DOCOPT
 Beer Recipe
 
 Usage:
-  #{__FILE__} [--file <beer.xml>] [--format=<format>] [--template=<path>]
+  #{__FILE__} [--file <beer.xml>] [--format=<format>] [--template=<path>] [--language=<file>]
   #{__FILE__} -h | --help
   #{__FILE__} --version
 
@@ -19,6 +19,7 @@ Options:
   --format=<format>  Output format: text|html [default: html].
   --template=<path>  Path to ERB html template file to use instead of default.
   --file=<beerxml>   Path to beerxml file to read (default STDIN).
+  --language=<file>  Path to language file (defaults to locales/en.yml)
 
 DOCOPT
 

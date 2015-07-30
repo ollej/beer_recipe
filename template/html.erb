@@ -190,80 +190,80 @@
       <h1 itemprop="name"><%= name %></h1>
 
       <aside class="recipe_information">
-        <h2>Information</h2>
+      <h2><%= I18n.t(:information) %></h2>
 
         <div class="recipe_style">
-          <h3>Style</h3>
+          <h3><%= I18n.t(:style) %></h3>
           <p><%= style.name %> (<%= style_code %> / <%= style.style_guide %>)</p>
         </div>
 
         <div class="recipe_type">
-          <h3>Type</h3>
+          <h3><%= I18n.t(:type) %></h3>
           <p><%= style.type %></p>
         </div>
 
         <div class="recipe_grains">
-          <h3>Grains</h3>
-          <p><%= '%.2f' % total_grains %> kg</p>
+          <h3><%= I18n.t(:grains) %></h3>
+          <p><%= '%.2f' % total_grains %> <%= I18n.t(:kilograms) %></p>
         </div>
 
         <div class="recipe_hops">
-          <h3>Hops</h3>
-          <p><%= '%.0f' % total_hops %> g</p>
+          <h3><%= I18n.t(:hops) %></h3>
+          <p><%= '%.0f' % total_hops %> <%= I18n.t(:grams) %></p>
         </div>
 
         <div class="recipe_equipment">
-          <h3>Equipment</h3>
-          <p><%= equipment.name %> (<%= equipment.tun_volume %>L)</p>
+          <h3><%= I18n.t(:equipment) %></h3>
+          <p><%= equipment.name %> (<%= equipment.tun_volume %> <%= I18n.t(:liter_abbr) %>)</p>
         </div>
 
         <div class="recipe_brewer">
-          <h3>Brewer</h3>
+          <h3><%= I18n.t(:brewer) %></h3>
           <p>
             <%= brewer %>
             <% unless asst_brewer.blank? %>
-            (assisted by <%= asst_brewer %>)
+              (<%= I18n.t(:assisted_by, assistant: asst_brewer) %>)
             <% end %>
           </p>
         </div>
 
         <div class="recipe_notes">
-          <h3>Notes</h3>
+          <h3><%= I18n.t(:notes) %></h3>
           <p itemprop="description"><%= notes %></p>
         </div>
 
       </aside>
 
       <section class="recipe_details">
-        <h2>Recipe Details</h2>
+      <h2><%= I18n.t(:recipe_details) %></h2>
         <table>
           <thead>
             <tr>
-              <th>Batch Size</th>
-              <th>Boil Time</th>
-              <th>IBU</th>
-              <th>OG</th>
-              <th>FG</th>
-              <th>ABV</th>
-              <th>Calories / L</th>
-              <th>Color</th>
+              <th><%= I18n.t(:batch_size) %></th>
+              <th><%= I18n.t(:boil_time) %></th>
+              <th><%= I18n.t(:ibu) %></th>
+              <th><%= I18n.t(:og) %></th>
+              <th><%= I18n.t(:fg) %></th>
+              <th><%= I18n.t(:abv) %></th>
+              <th><%= I18n.t(:calories_per_liter) %></th>
+              <th><%= I18n.t(:color) %></th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td class="recipe_batch_size format_number" itemprop="recipeYield"><%= '%.1f' % batch_size %> L</td>
-              <td class="recipe_boil_time format_number"><%= '%.0f' % boil_time %> min</td>
+              <td class="recipe_batch_size format_number" itemprop="recipeYield"><%= '%.1f' % batch_size %> <%= I18n.t(:liter_abbr) %></td>
+              <td class="recipe_boil_time format_number"><%= '%.0f' % boil_time %> <%= I18n.t(:minutes) %></td>
               <td class="recipe_ibu format_number"><%= '%.0f' % ibu %></td>
-              <td class="recipe_og format_number"><%= '%.3f' % og %> SG</td>
-              <td class="recipe_fg format_number"><%= '%.3f' % fg %> SG</td>
-              <td class="recipe_abv format_number"><%= '%.1f' % abv %>%</td>
+              <td class="recipe_og format_number"><%= '%.3f' % og %> <%= I18n.t(:sg) %></td>
+              <td class="recipe_fg format_number"><%= '%.3f' % fg %> <%= I18n.t(:sg) %></td>
+              <td class="recipe_abv format_number"><%= '%.1f' % abv %><%= I18n.t(:percent_sign) %></td>
               <td class="recipe_calories format_number" itemprop="nutrition" itemscope
                 itemtype="http://schema.org/NutritionInformation">
                 <span itemprop="calories"><%= '%.0f' % calories %></span>
                 <meta itemprop="servingSize" content="1 L">
               </td>
               <td class="recipe_color format_number">
-                <%= '%.0f' % color_ebc %> EBC
+                <%= '%.0f' % color_ebc %> <%= I18n.t(:ebc) %>
                 <div class="colorbox" style="background-color: <%= color_hex %>">&nbsp;</div>
                 <!-- <div class="colorbox <%= color_class %>">&nbsp;</div> --></td>
             </tr>
@@ -272,15 +272,15 @@
       </section>
 
       <section class="recipe_fermentables">
-        <h2>Fermentables</h2>
+      <h2><%= I18n.t(:fermentables) %></h2>
         <table>
           <thead>
             <tr>
-              <th>%</th>
-              <th>Name</th>
-              <th>Amount</th>
-              <th>Type</th>
-              <th>Color</th>
+              <th><%= I18n.t(:percent) %></th>
+              <th><%= I18n.t(:fermentable_name) %></th>
+              <th><%= I18n.t(:fermentable_amount) %></th>
+              <th><%= I18n.t(:fermentable_type) %></th>
+              <th><%= I18n.t(:fermentable_color) %></th>
             </tr>
           </thead>
           <tbody>
@@ -288,12 +288,12 @@
             <meta itemprop="recipeIngredient"
               content="<%= f.formatted_amount %> <%= f.name %>">
             <tr>
-              <td class="fermentable_percent format_number"><%= '%.1f' % f.amount_percent %>%</td>
+              <td class="fermentable_percent format_number"><%= '%.1f' % f.amount_percent %><%= I18n.t(:percent_sign) %></td>
               <td class="fermentable_name"><%= f.name %></td>
               <td class="fermentable_amount format_number"><%= f.formatted_amount %></td>
               <td class="fermentable_type"><%= f.type %></td>
               <td class="fermentable_color format_number">
-                <%= '%.0f' % f.color_ebc %> EBC
+                <%= '%.0f' % f.color_ebc %> <%= I18n.t(:ebc) %>
                 <div class="colorbox" style="background-color: <%= f.color_hex %>">&nbsp;</div>
                 <!-- <div class="colorbox <%= f.color_class %>">&nbsp;</div> --></td>
             </tr>
@@ -303,18 +303,18 @@
       </section>
 
       <section class="recipe_hops">
-        <h2>Hops</h2>
+      <h2><%= I18n.t(:hops) %></h2>
         <table>
           <thead>
             <tr>
-              <th>%</th>
-              <th>Name</th>
-              <th>Amount</th>
-              <th>Time</th>
-              <th>Use</th>
-              <th>Form</th>
-              <th>Alpha</th>
-              <th>IBU</th>
+              <th><%= I18n.t(:percent_sign) %></th>
+              <th><%= I18n.t(:hops_name) %></th>
+              <th><%= I18n.t(:hops_amount) %></th>
+              <th><%= I18n.t(:hops_time) %></th>
+              <th><%= I18n.t(:hops_use) %></th>
+              <th><%= I18n.t(:hops_form) %></th>
+              <th><%= I18n.t(:hops_alpha) %></th>
+              <th><%= I18n.t(:hops_ibu) %></th>
             </tr>
           </thead>
           <tbody>
@@ -322,13 +322,13 @@
             <meta itemprop="recipeIngredient"
               content="<%= hop.formatted_amount %> <%= hop.name %> (<%= hop.use %> <%= hop.formatted_time %>)">
             <tr>
-              <td class="hops_percent format_number"><%= '%.1f' % hop.amount_percent %>%</td>
+              <td class="hops_percent format_number"><%= '%.1f' % hop.amount_percent %><%= I18n.t(:percent_sign) %></td>
               <td class="hops_name"><%= hop.name %></td>
               <td class="hops_amount format_number"><%= hop.formatted_amount %></td>
               <td class="hops_time format_number"><%= hop.formatted_time %></td>
               <td class="hops_use"><%= hop.use %></td>
               <td class="hops_form"><%= hop.form %></td>
-              <td class="hops_alpha format_number"><%= hop.alpha %>%</td>
+              <td class="hops_alpha format_number"><%= hop.alpha %><%= I18n.t(:percent_sign) %></td>
               <td class="hops_ibu format_number"><%= '%.1f' % hop.ibu %></td>
             </tr>
             <% end %>
@@ -337,16 +337,16 @@
       </section>
 
       <section class="yeasts">
-        <h2>Yeasts</h2>
+        <h2><%= I18n.t(:yeasts) %></h2>
         <table>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Product ID</th>
-              <th>Lab</th>
-              <th>Form</th>
-              <th>Attenuation</th>
-              <th>Temperature</th>
+              <th><%= I18n.t(:yeast_name) %></th>
+              <th><%= I18n.t(:yeast_product_id) %></th>
+              <th><%= I18n.t(:yeast_lab) %></th>
+              <th><%= I18n.t(:yeast_form) %></th>
+              <th><%= I18n.t(:yeast_attenuation) %></th>
+              <th><%= I18n.t(:yeast_temperature) %></th>
             </tr>
           </thead>
           <tbody>
@@ -367,16 +367,16 @@
 
       <section class="recipe_mash" itemprop="recipeInstructions"
         itemscope itemtype="https://schema.org/ItemList">
-        <h2>Mash</h2>
+        <h2><%= I18n.t(:mash) %></h2>
         <table>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Infuse Amount</th>
-              <th>Step Temp</th>
-              <th>Ramp Time</th>
-              <th>Step Time</th>
+              <th><%= I18n.t(:mash_name) %></th>
+              <th><%= I18n.t(:mash_type) %></th>
+              <th><%= I18n.t(:mash_infuse_amount) %></th>
+              <th><%= I18n.t(:mash_step_temp) %></th>
+              <th><%= I18n.t(:mash_ramp_time) %></th>
+              <th><%= I18n.t(:mash_step_time) %></th>
             </tr>
           </thead>
           <tbody>
@@ -398,7 +398,7 @@
     </article>
 
     <footer>
-      <p><small>Generated by <a href="http://github.com/ollej/beer_recipe">BeerRecipe</a> v<%= BeerRecipe::VERSION %></small></p>
+      <p><small><%= I18n.t(:generated_by) %> <a href="http://github.com/ollej/beer_recipe">BeerRecipe</a> v<%= BeerRecipe::VERSION %></small></p>
     </footer>
   </body>
 </html>
