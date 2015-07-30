@@ -7,6 +7,7 @@ kilograms: kg
 hops: Hops
 grams: gr
 equipment: Equipment
+brew_date: Brew Date
 brewer: Brewer
 assisted_by: assisted by %{assistant}
 notes: Notes
