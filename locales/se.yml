@@ -5,7 +5,7 @@ type: Typ
 grains: Maltvikt
 kilograms: kg
 hops: Humle
-grams: g
+grams: gr
 equipment: Utrustning
 brewer: Bryggare
 assisted_by: med hjälp av %{assistant}
@@ -20,6 +20,7 @@ abv: ABV
 calories_per_liter: Kalorier / L
 color: Färg
 liter_abbr: L
+degrees: '°C'
 minutes: min
 sg: SG
 percent: '%'
@@ -30,6 +31,9 @@ fermentable_name: Namn
 fermentable_amount: Mängd
 fermentable_type: Typ
 fermentable_color: Färg
+Grain: Malt
+Dry Extract: Extrakt
+Sugar: Socker
 hops_name: Namn
 hops_amount: Mängd
 hops_time: Tid
@@ -37,6 +41,14 @@ hops_use: Användning
 hops_form: Form
 hops_alpha: Alfa
 hops_ibu: IBU
+Pellet: Pellet
+Leaf: Kottar
+Plug: Puck
+days: dgr
+min: min
+Dry Hop: Torrhumling
+Boil: Kok
+Aroma: Arom
 yeasts: Jäst
 yeast_name: Namn
 yeast_product_id: Produkt ID
@@ -44,6 +56,8 @@ yeast_lab: Labb
 yeast_form: Form
 yeast_attenuation: Attenuering
 yeast_temperature: Temperatur
+Dry: Torr
+Liquid: Flytande
 mash: Mäskning
 mash_name: Namn
 mash_type: Typ
@@ -51,4 +65,12 @@ mash_infuse_amount: Vatten
 mash_step_temp: Stegtemperatur
 mash_ramp_time: Höjningstid
 mash_step_time: Stegtid
+Temperature: Temperatur
+Infusion: Infusion
+Mash In: Inmäskning
+Protein Rest: Proteinrast
+Saccharification: Försockringsrast
+Low Saccharification: Låg försockring
+High Saccharification: Hög försockring
+Mash Out: Utmäskning
 generated_by: Genererad av

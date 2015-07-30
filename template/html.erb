@@ -290,8 +290,8 @@
             <tr>
               <td class="fermentable_percent format_number"><%= '%.1f' % f.amount_percent %><%= I18n.t(:percent_sign) %></td>
               <td class="fermentable_name"><%= f.name %></td>
-              <td class="fermentable_amount format_number"><%= f.formatted_amount %></td>
-              <td class="fermentable_type"><%= f.type %></td>
+              <td class="fermentable_amount format_number"><%= f.formatted_amount %> <%= I18n.t(:kilograms) %></td>
+              <td class="fermentable_type"><%= I18n.t(f.type, default: f.type) %></td>
               <td class="fermentable_color format_number">
                 <%= '%.0f' % f.color_ebc %> <%= I18n.t(:ebc) %>
                 <div class="colorbox" style="background-color: <%= f.color_hex %>">&nbsp;</div>
@@ -324,12 +324,12 @@
             <tr>
               <td class="hops_percent format_number"><%= '%.1f' % hop.amount_percent %><%= I18n.t(:percent_sign) %></td>
               <td class="hops_name"><%= hop.name %></td>
-              <td class="hops_amount format_number"><%= hop.formatted_amount %></td>
-              <td class="hops_time format_number"><%= hop.formatted_time %></td>
-              <td class="hops_use"><%= hop.use %></td>
-              <td class="hops_form"><%= hop.form %></td>
+              <td class="hops_amount format_number"><%= hop.formatted_amount %> <%= I18n.t(:grams) %></td>
+              <td class="hops_time format_number"><%= hop.formatted_time %> <%= I18n.t(hop.time_unit, default: hop.time_unit) %></td>
+              <td class="hops_use"><%= I18n.t(hop.use, default: hop.use) %></td>
+              <td class="hops_form"><%= I18n.t(hop.form, default: hop.form) %></td>
               <td class="hops_alpha format_number"><%= hop.alpha %><%= I18n.t(:percent_sign) %></td>
-              <td class="hops_ibu format_number"><%= '%.1f' % hop.ibu %></td>
+              <td class="hops_ibu format_number"><%= hop.formatted_ibu %></td>
             </tr>
             <% end %>
           </tbody>
@@ -356,7 +356,7 @@
               <td class="yeast_name"><%= yeast.name %></td>
               <td class="yeast_product_id"><%= yeast.product_id %></td>
               <td class="yeast_laboratory"><%= yeast.laboratory %></td>
-              <td class="yeast_form"><%= yeast.form %></td>
+              <td class="yeast_form"><%= I18n.t(yeast.form, default: yeast.form) %></td>
               <td class="yeast_attenuation format_number"><%= yeast.formatted_attenuation %></td>
               <td class="yeast_temperatures format_number"><%= yeast.formatted_temperatures %></td>
             </tr>
@@ -383,12 +383,12 @@
             <% mash.steps.each do |step| %>
               <tr>
               <meta itemprop="name" content="<%= step.name %> (<%= step.type %>) <%= step.formatted_step_temp %> @ <%= step.formatted_step_time %>">
-              <td class="mash_name"><%= step.name %></td>
+              <td class="mash_name"><%= I18n.t(step.name, default: step.name) %></td>
               <td class="mash_type"><%= step.type %></td>
-              <td class="mash_infuse_amount format_number"><%= step.formatted_infuse_amount %></td>
-              <td class="mash_step_temp format_number"><%= step.formatted_step_temp %></td>
-              <td class="mash_ramp_time format_number"><%= step.formatted_ramp_time %></td>
-              <td class="mash_step_time format_number"><%= step.formatted_step_time %></td>
+              <td class="mash_infuse_amount format_number"><%= step.formatted_infuse_amount %> <%= I18n.t(:liter_abbr) %></td>
+              <td class="mash_step_temp format_number"><%= step.formatted_step_temp %><%= I18n.t(:degrees) %></td>
+              <td class="mash_ramp_time format_number"><%= step.formatted_ramp_time %> <%= I18n.t(:minutes) %></td>
+              <td class="mash_step_time format_number"><%= step.formatted_step_time %> <%= I18n.t(:minutes) %></td>
             </tr>
             <% end %>
           </tbody>

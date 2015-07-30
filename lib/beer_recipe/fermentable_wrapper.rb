@@ -1,10 +1,10 @@
 class BeerRecipe::FermentableWrapper < BeerRecipe::Wrapper
   def formatted_amount
-    "#{'%.2f' % amount} kg"
+    "#{'%.2f' % amount}"
   end
 
   def formatted_color
-    "#{'%.0f' % color_ebc} EBC"
+    "#{'%.0f' % color_ebc}"
   end
 
   def color_ebc

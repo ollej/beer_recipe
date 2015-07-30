@@ -10,8 +10,12 @@ class BeerRecipe::HopWrapper < BeerRecipe::Wrapper
     ( @record.alpha * amount * boil_time * 3 ) / @recipe.batch_size
   end
 
+  def dryhop?
+    @record.use == 'Dry Hop'
+  end
+
   def boil_time
-    if @record.use == 'Dry Hop'
+    if dryhop?
       0
     else
       @record.time / 60
@@ -19,19 +23,27 @@ class BeerRecipe::HopWrapper < BeerRecipe::Wrapper
   end
 
   def formatted_time
-    if @record.use == 'Dry Hop'
-      "#{'%.0f' % (@record.time / 1440)} days"
+    if dryhop?
+      "#{'%.0f' % (@record.time / 1440)}"
     else
-      "#{'%.0f' % @record.time} min"
+      "#{'%.0f' % @record.time}"
+    end
+  end
+
+  def time_unit
+    if dryhop?
+      'days'
+    else
+      'min'
     end
   end
 
   def formatted_amount
-   "#{'%.0f' % amount} gr"
+   "#{'%.0f' % amount}"
   end
 
   def formatted_ibu
-   "#{'%.2f' % ibu} IBU"
+   "#{'%.1f' % ibu}"
   end
 
   def amount_percent
