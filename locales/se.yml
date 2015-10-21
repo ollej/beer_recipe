@@ -76,3 +76,17 @@ Low Saccharification: Låg försockring
 High Saccharification: Hög försockring
 Mash Out: Utmäskning
 generated_by: Genererad av
+miscs: Övriga ingredienser
+misc_name: Namn
+misc_type: Typ
+misc_amount: Mängd
+misc_use: Användning
+misc_use_for: Användningsområde
+misc_time: Tid
+Fining: Klarning
+Herb: Krydda
+Other: Övrigt
+Secondary: Sekundär
+Yeast Nutrient: Jästnäring
+Ginger Root: Ingefära
+Fermentation: Jäsning
