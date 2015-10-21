@@ -8,7 +8,7 @@ class BeerRecipe::MiscWrapper < BeerRecipe::Wrapper
   end
 
   def formatted_amount
-    "#{'%.1f' % (1000 * amount)}"
+    "#{'%.0f' % (1000 * amount)}"
   end
 
   def formatted_time
