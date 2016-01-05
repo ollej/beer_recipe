@@ -8,7 +8,7 @@ class BeerRecipe::TextFormatter < BeerRecipe::RecipeFormatter
     puts "OG: #{@recipe.og}"
     puts "FG: #{@recipe.fg}"
     puts "ABV: #{'%.2f' % @recipe.abv}%"
-    puts "IBU: #{@recipe.ibu}"
+    puts "IBU: #{'%.0f' % @recipe.ibu}"
   end
 
   def format_mash(mash)
@@ -36,6 +36,14 @@ class BeerRecipe::TextFormatter < BeerRecipe::RecipeFormatter
 
   def format_hop(h)
     puts "#{h.formatted_amount}\t#{h.name} (#{h.form})\t#{h.use}\t#{h.formatted_time}\t#{h.formatted_ibu}"
+  end
+
+  def before_miscs
+    puts "\nMiscellaneous:"
+  end
+
+  def format_misc(m)
+    puts "#{m.name}\t#{m.formatted_amount} #{m.unit}\t#{m.formatted_time} #{m.time_unit}"
   end
 
   def before_yeasts

@@ -1,13 +1,20 @@
 class BeerRecipe::HopWrapper < BeerRecipe::Wrapper
-  attr_accessor :ibu
 
   def amount
     @record.amount * 1000
   end
 
+  def aau
+    @record.alpha * amount * 0.035274
+  end
+
+  # mg/l of added alpha acids
+  def mgl_added_alpha_acids
+    BeerRecipe::Formula.new.mgl_added_alpha_acids(@recipe.batch_size, @record.alpha, amount)
+  end
+
   def ibu
-    # IBU = (Alfasyrahalt) X (Humlemängd) X (Koktid) X (3) / (Bryggvolym)
-    ( @record.alpha * amount * boil_time * 3 ) / @recipe.batch_size
+    @ibu ||= BeerRecipe::Formula.new.tinseth(@recipe.batch_size, @record.time, @recipe.og, @record.alpha, amount)
   end
 
   def dryhop?

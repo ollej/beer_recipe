@@ -49,7 +49,7 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
   def ibu
     return @ibu if @ibu
     @ibu = 0
-    hops.each do |hop|
+    hops.select { |h| h.use == 'Boil' }.each do |hop|
       @ibu += hop.ibu
     end
     @ibu

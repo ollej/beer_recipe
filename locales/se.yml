@@ -87,6 +87,7 @@ Fining: Klarning
 Herb: Ört
 Spice: Krydda
 Flavor: Smak
+Water Agent: Vattenjustering
 Other: Övrigt
 Secondary: Sekundär
 Yeast Nutrient: Jästnäring
@@ -94,3 +95,6 @@ Ginger Root: Ingefära
 Fermentation: Jäsning
 Coffee: Kaffe
 Seeds of Paradise: Paradisfrön
+items: stycken
+Primary: Primär
+Bottling: Buteljering

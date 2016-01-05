@@ -88,6 +88,7 @@ Fining: Fining
 Herb: Herb
 Spice: Spice
 Flavor: Flavor
+Water Agent: Water Agent
 Other: Other
 Secondary: Secondary
 Yeast Nutrient: Yeast Nutrient
@@ -95,3 +96,6 @@ Ginger Root: Ginger Root
 Fermentation: Fermentation
 Coffee: Coffee
 Seeds of Paradise: Seeds of Paradise
+items: items
+Primary: Primary
+Bottling: Bottling

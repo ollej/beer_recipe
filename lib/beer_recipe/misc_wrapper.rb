@@ -1,26 +1,45 @@
 class BeerRecipe::MiscWrapper < BeerRecipe::Wrapper
+  DAY = 1440
+
+  def weight?
+    amount_is_weight
+  end
+
+  def days?
+    time > DAY
+  end
+
+  def large_amount?
+    amount >= 1
+  end
+
   def unit
-    if amount_is_weight
-      'grams'
+    # maybe use display_amount directly instead
+    if weight?
+      large_amount? ? 'kilograms' : 'grams'
     else
-      'ml'
+      large_amount? ? 'items' : 'ml'
     end
   end
 
   def formatted_amount
-    "#{'%.0f' % (1000 * amount)}"
+    if large_amount?
+      "#{'%.0f' % amount}"
+    else
+      "#{'%.0f' % (1000 * amount)}"
+    end
   end
 
   def formatted_time
-    t = if time > 1440
-      "#{'%.0f' % (time / 1440)}"
+    t = if days?
+      "#{'%.0f' % (time / DAY)}"
     else
       "#{'%.0f' % time}"
     end
   end
 
   def time_unit
-    if time > 1440
+    if days?
       'days'
     else
       'minutes'
