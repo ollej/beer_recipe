@@ -6,7 +6,7 @@ class BeerRecipe::MiscWrapper < BeerRecipe::Wrapper
   end
 
   def days?
-    time > DAY
+    !blank?(time) && time > DAY
   end
 
   def large_amount?
@@ -31,7 +31,8 @@ class BeerRecipe::MiscWrapper < BeerRecipe::Wrapper
   end
 
   def formatted_time
-    t = if days?
+    return "" if blank?(time)
+    if days?
       "#{'%.0f' % (time / DAY)}"
     else
       "#{'%.0f' % time}"

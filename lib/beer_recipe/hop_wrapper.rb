@@ -14,7 +14,11 @@ class BeerRecipe::HopWrapper < BeerRecipe::Wrapper
   end
 
   def ibu
-    @ibu ||= BeerRecipe::Formula.new.tinseth(@recipe.batch_size, @record.time, @recipe.og, @record.alpha, amount)
+    @ibu ||= if @recipe.has_final_values? && @recipe.batch_size > 0 && amount > 0 && @record.time > 0
+               BeerRecipe::Formula.new.tinseth(@recipe.batch_size, @record.time, @recipe.og, @record.alpha, amount)
+             else
+               0
+             end
   end
 
   def dryhop?

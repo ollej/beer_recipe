@@ -12,7 +12,7 @@ class BeerRecipe::MashWrapper < BeerRecipe::Wrapper
   end
 
   def total_mash_time
-    steps.map { |s| s.step_time }.reduce :+
+    steps.map { |s| s.step_time || 0 }.reduce :+ || 0
   end
 end
 

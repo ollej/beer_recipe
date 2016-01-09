@@ -10,6 +10,10 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
     @record
   end
 
+  def date
+    recipe.date || nil
+  end
+
   def get_binding
     binding
   end
@@ -30,20 +34,32 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
     @mash ||= BeerRecipe::MashWrapper.new(recipe.mash, self)
   end
 
-  def has_final_values?
-    og > 0 && fg > 0 && abv > 0
-  end
-
   def file_name
     I18n.transliterate(name.downcase.gsub(/\s+/, '_')).gsub(/[^a-z0-9_]/, '')
+  end
+
+  def has_final_values?
+    og > 0 && fg > 0 && abv > 0
   end
 
   def style_code
     "#{recipe.style.category_number} #{recipe.style.style_letter}"
   end
 
+  def batch_size
+    recipe.batch_size || 0
+  end
+
+  def og
+    recipe.og || 0
+  end
+
+  def fg
+    recipe.fg || 0
+  end
+
   def abv
-    @abv ||= BeerRecipe::Formula.new.sg_to_abv(recipe.og, recipe.fg)
+    @abv ||= BeerRecipe::Formula.new.sg_to_abv(og, fg)
   end
 
   def ibu
@@ -116,6 +132,10 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
     @hop_weight
   end
 
+  def boil_time
+    recipe.boil_time || 0
+  end
+
   def total_time
     boil_time + mash.total_mash_time
   end
@@ -142,7 +162,11 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
   end
 
   def real_extract
-    @real_extract ||= BeerRecipe::Formula.new.real_extract(og, fg)
+    @real_extract ||= if og > 0 && fg > 0
+      BeerRecipe::Formula.new.real_extract(og, fg)
+    else
+      0
+    end
   end
 end
 

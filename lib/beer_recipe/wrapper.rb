@@ -16,6 +16,10 @@ class BeerRecipe::Wrapper
     "format_#{record_type}".to_sym
   end
 
+  def blank?(obj)
+    obj.nil? || (obj.respond_to?(:empty?) && obj.empty?)
+  end
+
   def self.set(recipe, set)
     set.map { |record| self.wrap(record, recipe) }
   end
