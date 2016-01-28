@@ -40,7 +40,7 @@ class BeerRecipe::HopWrapper < BeerRecipe::Wrapper
     elsif @record.use == 'First Wort'
       ibu *= 1.10
     elsif @record.use == 'Aroma'
-      ibu *= 0.10
+      ibu *= 0.50
     end
     ibu
   end
