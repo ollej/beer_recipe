@@ -23,6 +23,22 @@ class BeerRecipe::FermentableWrapper < BeerRecipe::Wrapper
     @mcu ||= BeerRecipe::Formula.new.mcu(amount, color_srm, @recipe.batch_size)
   end
 
+  def ibu
+    if bitter_extract?
+      amount_in_pounds * ibu_gal_per_lb / @recipe.gallons
+    else
+      0
+    end
+  end
+
+  def bitter_extract?
+    !ibu_gal_per_lb.nil?
+  end
+
+  def amount_in_pounds
+    amount * 2.20462
+  end
+
   def color_class
     c = color_srm.to_i
     if c > 40

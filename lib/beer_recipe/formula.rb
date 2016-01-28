@@ -65,7 +65,7 @@ module BeerRecipe
     end
 
     def mgl_added_alpha_acids(batch_size, alpha, amount)
-      (alpha * amount * 1000) / batch_size
+      (alpha * amount) / batch_size
     end
   end
 end

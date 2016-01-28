@@ -50,6 +50,10 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
     recipe.batch_size || 0
   end
 
+  def gallons
+    batch_size * 0.264172
+  end
+
   def og
     recipe.og || 0
   end
@@ -68,11 +72,18 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
     hops.select { |h| h.use == 'Boil' }.each do |hop|
       @ibu += hop.ibu
     end
+    bitter_extracts.each do |f|
+      @ibu += f.ibu
+    end
     @ibu
   end
 
   def grains
     fermentables.select { |f| f.type == 'Grain' }
+  end
+
+  def bitter_extracts
+    fermentables.select { |f| f.bitter_extract? }
   end
 
   def color

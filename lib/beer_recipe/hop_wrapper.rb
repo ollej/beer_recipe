@@ -14,15 +14,47 @@ class BeerRecipe::HopWrapper < BeerRecipe::Wrapper
   end
 
   def ibu
-    @ibu ||= if @recipe.has_final_values? && @recipe.batch_size > 0 && amount > 0 && @record.time > 0
-               BeerRecipe::Formula.new.tinseth(@recipe.batch_size, @record.time, @recipe.og, @record.alpha, amount)
-             else
-               0
-             end
+    @ibu ||= calculate_ibu
+  end
+
+  def calculate_ibu
+    # TODO: Use recipe boil time for first wort/mash
+    # TODO: Use calculated_og if og missing.
+    if has_needed_ibu_values? && contributes_bitterness?
+      ibu = BeerRecipe::Formula.new.tinseth(@recipe.batch_size, @record.time, @recipe.og, @record.alpha, amount)
+      ibu = adjust_bitterness(ibu)
+      ibu
+    else
+      0
+    end
+  end
+
+  def adjust_bitterness(ibu)
+    if @record.form == 'Pellet'
+      ibu *= 1.10
+    elsif @record.form == 'Plug'
+      ibu *= 1.02
+    end
+    if @record.use == 'Mash'
+      ibu *= 0.20
+    elsif @record.use == 'First Wort'
+      ibu *= 1.10
+    elsif @record.use == 'Aroma'
+      ibu *= 0.10
+    end
+    ibu
+  end
+
+  def contributes_bitterness?
+    !dryhop?
+  end
+
+  def has_needed_ibu_values?
+    @recipe.has_final_values? && @recipe.batch_size > 0 && amount > 0 && @record.time > 0
   end
 
   def dryhop?
-    @record.use == 'Dry Hop'
+    @record.use == 'Dry Hop' || @record.time > 320
   end
 
   def boil_time

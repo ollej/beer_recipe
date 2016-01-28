@@ -26,7 +26,7 @@ class BeerRecipe::MiscWrapper < BeerRecipe::Wrapper
     if large_amount?
       "#{'%.0f' % amount}"
     else
-      "#{'%.0f' % (1000 * amount)}"
+      "#{'%.2f' % (1000 * amount)}"
     end
   end
 
