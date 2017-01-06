@@ -79,7 +79,7 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
   end
 
   def strip_unit(value)
-    return nil if value.nil?
+    return value if value.nil? || !value.kind_of?(String)
     value.gsub(/ \w+\Z/, '').to_f
   end
 
