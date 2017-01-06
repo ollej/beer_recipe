@@ -54,12 +54,20 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
     batch_size * 0.264172
   end
 
+  def estimated_og
+    strip_unit(recipe.est_og)
+  end
+
+  def estimated_fg
+    strip_unit(recipe.est_fg)
+  end
+
   def og
-    recipe.og || 0
+    @og ||= estimated_og || recipe.og || 0
   end
 
   def fg
-    recipe.fg || 0
+    @fg ||= estimated_fg || recipe.fg || 0
   end
 
   def abv
@@ -67,15 +75,23 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
   end
 
   def ibu
-    return @ibu if @ibu
-    @ibu = 0
-    hops.select { |h| h.use == 'Boil' }.each do |hop|
-      @ibu += hop.ibu
+    @ibu ||= strip_unit(recipe.ibu) || calculate_ibu
+  end
+
+  def strip_unit(value)
+    return nil if value.nil?
+    value.gsub(/ \w+\Z/, '').to_f
+  end
+
+  def calculate_ibu
+    ibu = 0
+    hops.each do |hop|
+      ibu += hop.ibu
     end
     bitter_extracts.each do |f|
-      @ibu += f.ibu
+      ibu += f.ibu
     end
-    @ibu
+    ibu
   end
 
   def grains
