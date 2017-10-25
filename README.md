@@ -1,8 +1,9 @@
 Beer Recipe
 ===========
 
-Wrapper around nrb-beerxml to make calculations and simplify making output
-templates.
+Generate html web pages from BeerXML files exported from beer recipe programs like BeerSmith or Brew Pal.
+
+Wrapper around nrb-beerxml to make calculations and simplify making output templates.
 
 Usage
 -----
