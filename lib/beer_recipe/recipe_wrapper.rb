@@ -1,8 +1,9 @@
 class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
   SETS = %i(fermentables hops miscs waters yeasts)
 
-  def initialize(record, recipe=nil)
-    super
+  def initialize(record, actual_values: false)
+    super(record)
+    @actual_values = actual_values
     @sets = {}
   end
 
@@ -62,20 +63,40 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
     strip_unit(recipe.est_fg)
   end
 
+  def actual_og
+    recipe.og
+  end
+
+  def actual_fg
+    recipe.fg
+  end
+
   def og
-    @og ||= estimated_og || recipe.og || 0
+    @og ||= @actual_values && actual_og > 0 ? actual_og : estimated_og || 0
   end
 
   def fg
-    @fg ||= estimated_fg || recipe.fg || 0
+    @fg ||= @actual_values && actual_fg > 0 ? actual_fg : estimated_fg || 0
+  end
+
+  def actual_abv
+    strip_unit(recipe.abv)
+  end
+
+  def estimated_abv
+    strip_unit(recipe.est_abv)
+  end
+
+  def calculated_abv
+    BeerRecipe::Formula.new.sg_to_abv(og, fg)
   end
 
   def abv
-    @abv ||= BeerRecipe::Formula.new.sg_to_abv(og, fg)
+    @abv ||= @actual_values && actual_abv > 0 ? actual_abv : estimated_abv || calculated_abv
   end
 
   def ibu
-    @ibu ||= strip_unit(recipe.ibu) || calculate_ibu
+    @ibu ||= @actual_values && calculated_ibu > 0 ? calculated_ibu : estimated_ibu
   end
 
   def strip_unit(value)
@@ -83,15 +104,21 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
     value.gsub(/ \w+\Z/, '').to_f
   end
 
-  def calculate_ibu
-    ibu = 0
-    hops.each do |hop|
-      ibu += hop.ibu
+  def estimated_ibu
+    strip_unit(recipe.ibu)
+  end
+
+  def calculated_ibu
+    @calculated_ibu ||= begin
+      ibu = 0
+      hops.each do |hop|
+        ibu += hop.ibu
+      end
+      bitter_extracts.each do |f|
+        ibu += f.ibu
+      end
+      ibu
     end
-    bitter_extracts.each do |f|
-      ibu += f.ibu
-    end
-    ibu
   end
 
   def grains
@@ -102,8 +129,16 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
     fermentables.select { |f| f.bitter_extract? }
   end
 
+  def estimated_color
+    strip_unit(recipe.est_color)
+  end
+
   def color
-    color_srm
+    @actual_values ? actual_color : estimated_color
+  end
+
+  def actual_color
+    color_ebc
   end
 
   def color_mcu
@@ -119,7 +154,7 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
   end
 
   def color_ebc
-    @color_eb ||= BeerRecipe::Formula.new.srm_to_ebc(color_srm)
+    @color_ebc ||= BeerRecipe::Formula.new.srm_to_ebc(color_srm)
   end
 
   def color_class
@@ -138,7 +173,7 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
   end
 
   def formatted_color
-    "#{'%.0f' % color_ebc} EBC"
+    "#{'%.0f' % color} EBC"
   end
 
   def total_grains
@@ -181,7 +216,15 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
 
   # Returns calories per liter
   def calories
-    @calories ||= if has_final_values?
+    @calories ||= @actual_values && calculated_calories > 0 ? calculated_calories : estimated_calories
+  end
+
+  def estimated_calories
+    strip_unit(recipe.calories)
+  end
+
+  def calculated_calories
+    if has_final_values?
       BeerRecipe::Formula.new.calories(serving_size, abv, og, fg)
     else
       0
@@ -189,7 +232,7 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
   end
 
   def real_extract
-    @real_extract ||= if og > 0 && fg > 0
+    @real_extract ||= if has_final_values?
       BeerRecipe::Formula.new.real_extract(og, fg)
     else
       0
