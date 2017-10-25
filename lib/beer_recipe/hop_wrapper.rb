@@ -1,7 +1,11 @@
 class BeerRecipe::HopWrapper < BeerRecipe::Wrapper
 
   def amount
-    @record.amount * 1000
+    if @record.amount < 1
+      @record.amount * 1000
+    else
+      @record.amount
+    end
   end
 
   def aau
