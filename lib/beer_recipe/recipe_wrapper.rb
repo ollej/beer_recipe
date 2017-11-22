@@ -72,11 +72,11 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
   end
 
   def og
-    @og ||= @actual_values && actual_og > 0 ? actual_og : estimated_og || 0
+    @og ||= @actual_values && actual_og > 0 ? actual_og : estimated_og || actual_og || 0
   end
 
   def fg
-    @fg ||= @actual_values && actual_fg > 0 ? actual_fg : estimated_fg || 0
+    @fg ||= @actual_values && actual_fg > 0 ? actual_fg : estimated_fg || actual_fg || 0
   end
 
   def actual_abv
