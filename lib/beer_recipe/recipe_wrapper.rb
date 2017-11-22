@@ -96,7 +96,7 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
   end
 
   def ibu
-    @ibu ||= @actual_values && calculated_ibu > 0 ? calculated_ibu : estimated_ibu
+    @ibu ||= @actual_values && calculated_ibu > 0 ? calculated_ibu : estimated_ibu || calculated_ibu
   end
 
   def strip_unit(value)
