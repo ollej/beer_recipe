@@ -8,6 +8,15 @@ module BeerRecipe
       srm * 1.97
     end
 
+    def ebc_to_lovibond(ebc)
+      srm = ebc_to_srm(ebc)
+      srm_to_lovibond(srm)
+    end
+
+    def srm_to_lovibond(srm)
+      (srm + 0.76) / 1.3546
+    end
+
     def mcu_to_srm(mcu)
       # SRM color = 1.4922 * (MCU ** 0.6859)
       srm = 1.4922 * (mcu ** 0.6859)
@@ -27,7 +36,7 @@ module BeerRecipe
 
     def mcu(amount, srm, volume)
       # MCU = (weight kg * lovibond * 2.205) / (volume * 0.264)
-      (amount * srm * 2.205) / (volume * 0.264)
+      (amount * srm_to_lovibond(srm) * 2.205) / (volume * 0.264)
     end
 
     def sg_to_abv(og, fg)
