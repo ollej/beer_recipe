@@ -21,7 +21,11 @@ class BeerRecipe::Wrapper
   end
 
   def self.set(recipe, set)
-    set.map { |record| self.wrap(record, recipe) }
+    if set.respond_to? :map
+      set.map { |record| self.wrap(record, recipe) }
+    else
+      []
+    end
   end
 
   def self.wrap(record, recipe)

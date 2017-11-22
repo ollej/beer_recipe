@@ -23,12 +23,12 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
     if SETS.include?(method)
       @sets[method] ||= BeerRecipe::Wrapper.set(self, recipe.send(method))
     else
-      @record.send(method, *args, &block)
+      recipe.send(method, *args, &block)
     end
   end
 
   def respond_to_missing?(name, flag = true)
-    SETS.include?(method) || @record.respond_to?(name) || super
+    SETS.include?(method) || recipe.respond_to?(name) || super
   end
 
   def mash
