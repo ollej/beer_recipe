@@ -44,7 +44,8 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
   end
 
   def style_code
-    return "" if recipe.style.nil? || recipe.style.empty?
+    return "" if recipe.style.nil? || !recipe.style.respond_to?(:category_number) ||
+      !recipe.style.respond_to?(:style_letter)
     "#{recipe.style.category_number} #{recipe.style.style_letter}"
   end
 
