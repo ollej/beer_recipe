@@ -5,7 +5,7 @@ class BeerRecipe::MashWrapper < BeerRecipe::Wrapper
   end
 
   def steps
-    return [] if @record.nil? || @record.mash_steps.nil? || @record.mash_steps.empty?
+    return [] if @record.nil? || !@record.mash_steps.kind_of?(NRB::BeerXML::RecordSet)
     @steps ||= @record.mash_steps.map do |step|
       BeerRecipe::Wrapper.wrap(step, @recipe)
     end
