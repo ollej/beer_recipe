@@ -1,3 +1,3 @@
 module BeerRecipe
-  VERSION = '0.4.20'
+  VERSION = '0.4.21'
 end
