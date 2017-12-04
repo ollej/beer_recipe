@@ -32,7 +32,7 @@ class BeerRecipe::RecipeWrapper < BeerRecipe::Wrapper
   end
 
   def mash
-    @mash ||= BeerRecipe::MashWrapper.new(recipe.mash, self)
+    @mash ||= BeerRecipe::MashWrapper.new(recipe.mash, self) unless recipe.mash.nil?
   end
 
   def file_name
